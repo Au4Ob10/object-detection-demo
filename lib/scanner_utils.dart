@@ -2,10 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// @dart=2.9
+
 
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
@@ -24,15 +23,16 @@ class ScannerUtils {
   }
 
   static Future<dynamic> detect({
-    @required CameraImage image,
-    @required Future<dynamic> Function(GoogleVisionImage image) detectInImage,
-    @required int imageRotation,
-  }) async {
+   required CameraImage? image,
+   required Future<dynamic> Function(GoogleVisionImage image) detectInImage,
+   required int? imageRotation,
+  }) async { 
+    
     return detectInImage(
       GoogleVisionImage.fromBytes(
-        _concatenatePlanes(image.planes),
-        _buildMetaData(image, _rotationIntToImageRotation(imageRotation)),
-      ),
+        _concatenatePlanes(image!.planes),
+        _buildMetaData (image, _rotationIntToImageRotation(imageRotation!))
+    )
     );
   }
 
@@ -44,12 +44,12 @@ class ScannerUtils {
 
   static GoogleVisionImageMetadata _buildMetaData(
     CameraImage image,
-    ImageRotation rotation,
+    ImageRotation? rotation,
   ) {
     return GoogleVisionImageMetadata(
       rawFormat: image.format.raw,
       size: Size(image.width.toDouble(), image.height.toDouble()),
-      rotation: rotation,
+      rotation: rotation!,
       planeData: image.planes.map(
         (Plane plane) {
           return GoogleVisionImagePlaneMetadata(
@@ -62,7 +62,7 @@ class ScannerUtils {
     );
   }
 
-  static ImageRotation _rotationIntToImageRotation(int rotation) {
+  static ImageRotation? _rotationIntToImageRotation(int rotation) {
     switch (rotation) {
       case 0:
         return ImageRotation.rotation0;

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// @dart=2.9
+
 
 import 'dart:math';
 import 'dart:ui' as ui;
@@ -83,11 +83,11 @@ class BarcodeDetectorPainter extends CustomPainter {
     final double scaleY = size.height / absoluteImageSize.height;
 
     Rect scaleRect(Barcode barcode) {
-      return Rect.fromLTRB(
-        barcode.boundingBox.left * scaleX,
-        barcode.boundingBox.top * scaleY,
-        barcode.boundingBox.right * scaleX,
-        barcode.boundingBox.bottom * scaleY,
+      return Rect?.fromLTRB(
+        barcode.boundingBox!.left * scaleX,
+        barcode.boundingBox!.top * scaleY,
+        barcode.boundingBox!.right * scaleX,
+        barcode.boundingBox!.bottom * scaleY,
       );
     }
 
@@ -133,7 +133,7 @@ class FaceDetectorPainter extends CustomPainter {
       final contour = face.getContour((FaceContourType.allPoints));
       canvas.drawPoints(
           ui.PointMode.points,
-          contour.positionsList
+          contour!.positionsList
               .map((offset) => Offset((offset.dx * scaleX), offset.dy * scaleY))
               .toList(),
           paint);
@@ -185,7 +185,7 @@ class LabelDetectorPainter extends CustomPainter {
     builder.pushStyle(ui.TextStyle(color: Colors.green));
     for (final ImageLabel label in labels) {
       builder.addText('Label: ${label.text}, '
-          'Confidence: ${label.confidence.toStringAsFixed(2)}\n');
+          'Confidence: ${label.confidence?.toStringAsFixed(2)}\n');
     }
     builder.pop();
 
@@ -219,10 +219,10 @@ class TextDetectorPainter extends CustomPainter {
 
     Rect scaleRect(TextContainer container) {
       return Rect.fromLTRB(
-        container.boundingBox.left * scaleX,
-        container.boundingBox.top * scaleY,
-        container.boundingBox.right * scaleX,
-        container.boundingBox.bottom * scaleY,
+        container.boundingBox!.left * scaleX,
+        container.boundingBox!.top * scaleY,
+        container.boundingBox!.right * scaleX,
+        container.boundingBox!.bottom * scaleY,
       );
     }
 
