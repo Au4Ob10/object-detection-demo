@@ -38,7 +38,9 @@ class ScannerUtils {
 
   static Uint8List _concatenatePlanes(List<Plane> planes) {
     final WriteBuffer allBytes = WriteBuffer();
-    planes.forEach((Plane plane) => allBytes.putUint8List(plane.bytes));
+    for (var plane in planes) {
+      allBytes.putUint8List(plane.bytes);
+    }
     return allBytes.done().buffer.asUint8List();
   }
 
